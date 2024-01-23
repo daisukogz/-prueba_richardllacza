@@ -1,0 +1,72 @@
+service: pt-richardllacza
+custom:
+  profiles:
+    dev: devcomer
+  autoswagger:
+    #host: 'nnmujq5tah.execute-api.us-east-2.amazonaws.com'
+    basePath: '/dev'
+
+provider:
+  name: aws
+  stage: dev
+  profile: ${self:custom.profiles.${self:provider.stage}}
+  runtime: nodejs20.x
+  environment:
+    DYNAMOTABLE: TablaPruebaTecnica
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMOTABLE}"
+  region: us-east-2
+
+resources:
+  Resources:
+    DynamoTableTest:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.DYNAMOTABLE}
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 5
+          WriteCapacityUnits: 5
+functions:
+  getStarship_lambda:
+    handler: src/controllers/StarshipsController.getStarship_lambda
+    events: # uncomment these lines
+      - http:
+          path: /richardllacza/getStarship_lambda/{id}
+          method: get
+  getPeople_lambda:
+    handler: src/controllers/PeopleController.getPeople_lambda
+    events: # uncomment these lines
+      - http:
+          path: /richardllacza/getPeople_lambda/{id}
+          method: get
+  postRichardObj:
+    handler: src/controllers/RichardController.postRichardObj
+    events: # uncomment these lines
+      - http:
+          path: /richardllacza/postRichardObj
+          method: post
+  getRichardObj:
+    handler: src/controllers/RichardController.getRichardObj
+    events: # uncomment these lines
+      - http:
+          path: /richardllacza/getRichardObj
+          method: get
+
+# adding these two lines
+plugins:
+  - serverless-auto-swagger
+  - serverless-offline

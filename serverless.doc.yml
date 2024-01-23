@@ -1,0 +1,42 @@
+documentation:
+  version: '1.0'
+  title: 'Prueba tecnica - Documentacion v1'
+  description: 'Api para prueba tecnica'
+  #models: {}
+  models:
+    - name: "ErrorResponse"
+      description: "This is an error"
+      contentType: "application/json"
+      schema: ${file(models/ErrorResponse.json)}
+    - name: "getRichardObjRequest"
+      description: "Obtener valores a DynamoDB"
+      contentType: "application/json"
+      schema:
+        $schema: "http://json-schema.org/draft-04/schema#"
+        properties:
+          SomeObject:
+            type: "object"
+            properties:
+              SomeAttribute:
+                type: "string"
+
+
+endpoints:
+  getRichardObj:
+    summary: "GET - Obtener todos los objetos"
+    description: "GET"
+    requestBody:
+      description: "Sin body request"
+    requestModels:
+      application/json: "getRichardObjRequest"
+    methodResponses:
+      - statusCode: 201
+        responseBody:
+          description: "A user object along with generated API Keys"
+        responseModels:
+          application/json: "getRichardObjRequest"
+      - statusCode: 400
+        responseBody:
+          description: "An error message when creating a new user"
+        responseModels:
+          application/json: "getRichardObjRequest"

@@ -1,0 +1,30 @@
+{
+  "name": "Prueba-Tecnica-Softtek",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/app.js",
+    "test": "jest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1540.0",
+    "axios": "^1.6.5",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "save-dev": "^0.0.1-security",
+    "swapi-node": "^0.7.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3",
+    "serverless-auto-swagger": "^2.12.0",
+    "serverless-dynamodb-local": "^0.2.40",
+    "serverless-offline": "^13.3.3",
+    "supertest": "^6.3.4"
+  }
+}
